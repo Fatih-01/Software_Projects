@@ -1,5 +1,11 @@
 //This program will convert binary, octal and hexadecimal values
+
+//NOTES TO FOLLOW
+/*
+ * BINARY NOT CONVERTING DECIMAL PROPERLY
+ */
 import java.util.*;
+import java.lang.*;
 
 public class Converter {
     //Instance Variables
@@ -9,7 +15,9 @@ public class Converter {
     String bases[] = {"","binary", "octal", "hex", "decimal"};
     int result;
     String StrUserInput;
-    int intUserInput1, intUserInput2, decimalInput;
+    //variables names with inout are what the user types and the ones with "output" is what the program shows when converting
+    int intUserInput1, intUserInput2, decimalInput, binaryInput, binaryOutput, octalInput ;
+    double decimalOutput, octalOutput;
     Scanner scanner = new Scanner(System.in);
 
     //Local Variables for out decimal to binary functions
@@ -18,8 +26,9 @@ public class Converter {
 
     //Creating an ArrayList to make storing the binary numbers alot more easy
     ArrayList<Integer> binary = new ArrayList<Integer>();
+    ArrayList<Integer> storeIntegerVals = new ArrayList<Integer>();
 
-    //THE MAIN CLASS!!!!!!!!!
+    //THE MAIN METHOD!!!!!!!!!
     public static void main(String[] args){
         Converter converter = new Converter();
         converter.displayMessage(); 
@@ -54,11 +63,11 @@ public class Converter {
                         if(intUserInput1 == 2 && intUserInput2 == 1){
                             OctalToBinary();
                         }
-                        if(intUserInput1 == 4 && intUserInput2 == 1){
-                            decimalToBinary();
+                        if(intUserInput1 == 1 && intUserInput2 == 4){
+                            binaryToDecimal();
                         }
                         if(intUserInput1 == 4 && intUserInput2 == 1){
-                            binaryToDecimal();
+                            decimalToBinary();
                         }
                     }
                     //If the user says "no" Return back to the options
@@ -96,9 +105,47 @@ public class Converter {
             System.out.println(decimalInput + " as Binary is: "  + binary);
     }
 
-    public void binaryToDecimal(){
 
+    public void binaryToDecimal(){
+        //Asking the user to enter in a binary number
+        System.out.println("Enter in a binary value: ");
+        binaryInput = scanner.nextInt();
+        result = 0;
+
+        while(binaryInput > 0){
+            //Result splits the integer values one by one
+            result = binaryInput%10;
+            //once we split the value divide by 10 so we can get the next value (from right to left)
+            binaryInput/=10;
+            //If the user HAS NOT entered numbers between 0-1 we must give a warning
+            if(result > 1){
+                System.out.println("");
+                System.out.println(result + " Is not a binary value! Please enter a Binary Digit that is 0 or 1 ");
+                System.out.println("");
+                binaryToDecimal();
+                break;
+            }
+            else{
+                //Storing the split numbers one by one at each indexS
+                storeIntegerVals.add(result);
+
+                //Index counting statrts from left to right 
+               
+                //Viewing our binary ArrayList
+                System.out.println(storeIntegerVals);
+                
+                //Now we have the binary seprated inside an aray we can now convert them into Decimal
+                for(int i=0; i<storeIntegerVals.size(); i++){
+                    decimalOutput += storeIntegerVals.get(i) * Math.pow(2, i);
+                    System.out.println(decimalOutput);
+                }
+                //Just checks the1 Terminal output
+                // System.out.println("Binary");
+            }
+        }
+        System.out.print(decimalOutput);
     }
+
     public void binaryToOctal(){
 
         System.out.println("binary to Octal");
